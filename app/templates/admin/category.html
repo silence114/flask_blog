@@ -83,7 +83,7 @@
                         <input type="text" class="form-control" id="mod_time" readonly=true name="mod_time">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" required autofocus>取消</button>
                         <input type="submit" class="btn btn-danger" value="确认删除">
                     </div>
                 </form>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="form-group">
                         <label for="cate_name" class="control-label">类目名称:</label>
-                        <input type="text" class="form-control" id="cate_name" name="cate_name">
+                        <input type="text" class="form-control" id="cate_name" name="cate_name" required autofocus>
                     </div>
                     <div class="form-group">
                         <label for="cate_name" class="control-label">添加时间:</label>
@@ -141,7 +141,7 @@
                 <form action="/admin/category/add" method="post">
                     <div class="form-group">
                         <label for="cate_name" class="control-label">类目名称</label>
-                        <input type="text" class="form-control" id="cate_name" name="cate_name">
+                        <input type="text" class="form-control" id="cate_name" name="cate_name" required autofocus>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
