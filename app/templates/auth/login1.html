@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}
+    login
+{% endblock %}
+
+{% block content %}
+    <div style="width: 400px !important;height: auto!important;background: #f6f6f6 !important;padding: 10px 20px 20px 20px !important;border-radius: 15px;margin: 200px auto !important;">
+        <div>
+            <h2 style="text-align: center;margin-bottom: 10px;">请登录</h2><hr style="margin-bottom: 20px;">
+            {% if error_msg %}
+                <div class="alert alert-danger">{{ error_msg }}</div>
+            {% endif %}
+
+            <form action="/auth/login" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label for="login-username" class="col-sm-2 control-label">邮箱:</label>
+                    <div class=" col-sm-10 ">
+                        <input type="text" class="form-control" id="login-username" placeholder="输入注册邮箱" name="email" required autofocus>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" class="col-sm-2 control-label">密码:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="login-password" placeholder="请输入密码" name="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox"> Remember me
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">登录</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static',filename='scripts/bootstrapValidator.js') }}"></script>
+    <script>
+        $(function () {
+            $('form').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                　　　　　　　　valid:'glyphicon glyphicon-ok',
+                　　　　　　　　invalid:'glyphicon glyphicon-remove',
+                　　　　　　　　validating:'glyphicon glyphicon-refresh'
+              　　　　　　　　  },
+                fields: {
+                    email: {
+                         validators:{
+                             notEmpty: {
+                                message: '邮箱地址不能为空'
+                             },
+                             emailAddress: {
+                                message: '邮箱地址格式有误'
+                             }
+                         }
+                    },
+                    password:{
+                        validators:{
+                            notEmpty: {
+                                message: '密码不能为空'
+                            },
+                            stringLength:{
+                                min: 4,
+                                max: 20,
+                                message: '密码长度在4到20之间'
+                            },
+                        }
+                    }
+                }
+            });
+          });
+    </script>
+{% endblock %}

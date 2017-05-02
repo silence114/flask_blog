@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% block title %}
+    用户注册
+{% endblock %}
+
+{% block content %}
+    <div style="width: 600px;background: #f6f6f6;padding: 1px 20px 25px 20px;border-radius: 15px;margin: 100px auto;">
+        <div>
+            <h2 style="text-align: center;margin-bottom: 20px;">用户注册</h2><hr style="margin-bottom: 20px;">
+            {% if error_msg %}
+                <div class="alert alert-danger">{{ error_msg }}</div>
+            {% endif %}
+
+            <form action="/auth/register" method="post" class="form-horizontal">
+                <div class="form-group">
+                    <label for="login-username" class="col-sm-2 control-label">昵称:</label>
+                    <div class=" col-sm-10 ">
+                        <input type="text" class="form-control" id="login-username" placeholder="请输入昵称,字母数字组合,4-20位之间" name="username" required autofocus>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="login-email" class="col-sm-2 control-label">邮箱:</label>
+                    <div class=" col-sm-10 ">
+                        <input type="text" class="form-control" id="login-email" placeholder="输入注册邮箱" name="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" class="col-sm-2 control-label">密码:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="login-password" placeholder="请输入密码" name="password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password" class="col-sm-2 control-label">确认密码:</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="login-password" placeholder="请输入密码" name="re_password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tags" class="col-sm-2 control-label">学历:</label>
+                    <div class="col-sm-10">
+                        <select id="disabledSelect" class="form-control" name="education">
+                            <option value="1">小学</option>
+                            <option value="2">初中</option>
+                            <option value="3">高中</option>
+                            <option value="4">专科</option>
+                            <option value="5">本科</option>
+                            <option value="6">研究生</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tags" class="col-sm-2 control-label">兴趣爱好:</label>
+                    <div class="col-sm-10 container">
+                        <div class="row">
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="1">篮球1</label>
+                            </div>
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="2">音乐1</label>
+                            </div>
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="3">动漫1</label>
+                            </div>
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="4">动漫</label>
+                            </div>
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="5">动漫</label>
+                            </div>
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="6">动漫</label>
+                            </div>
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="7">动漫</label>
+                            </div>
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="8">动漫</label>
+                            </div>
+                            <div class="checkbox col-sm-4">
+                              <label><input type="checkbox" name='interest' value="9">动漫</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tags" class="col-sm-2 control-label">注册协议:</label>
+                    <div class="checkbox col-sm-10">
+                        <label><input type="checkbox" name='agree' value="1">同意 &nbsp;<a href="assientment.html">《用户注册协议书》</a></label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">注册</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static',filename='scripts/bootstrapValidator.js') }}"></script>
+    <script>
+        $(function () {
+            $('form').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                　　　　　　　　valid:'glyphicon glyphicon-ok',
+                　　　　　　　　invalid:'glyphicon glyphicon-remove',
+                　　　　　　　　validating:'glyphicon glyphicon-refresh'
+              　　　　　　　　  },
+                fields: {
+                    username: {
+                        message: '用户名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '用户名不能为空'
+                            },
+                            stringLength: {
+                                min: 4,
+                                max: 20,
+                                message: '用户名长度必须在4到20位之间'
+                            },
+                            regexp: {
+                                regexp: /^[a-zA-Z0-9_]+$/,
+                                message: '用户名只能包含大写、小写、数字和下划线'
+                            }
+                      }
+                    },
+                    email: {
+                         validators:{
+                             notEmpty: {
+                                message: '邮箱地址不能为空'
+                             },
+                             emailAddress: {
+                                message: '邮箱地址格式有误'
+                             }
+                         }
+                    },
+                    password:{
+                        validators:{
+                            notEmpty: {
+                                message: '密码不能为空'
+                            },
+                            stringLength:{
+                                min: 4,
+                                max: 20,
+                                message: '密码长度在4到20之间'
+                            },
+                        }
+                    },
+                    re_password:{
+                        validators:{
+                            notEmpty: {
+                                message: '确认密码不能为空'
+                            },
+                            stringLength:{
+                                min: 4,
+                                max: 20,
+                                message: '密码长度在4到20之间'
+                            },
+                            identical: {
+                                field: 'password',
+                                message: '两次输入的密码不相符'
+                            }
+                        }
+                    },
+                    agree:{
+                        validators:{
+                           notEmpty: {
+                                message:'注册必须同意用户注册协议'
+                           }
+                        }
+
+                    },
+                    interest:{
+                       validators: {
+                            choice: {
+                                min: 2,
+                                max: 4,
+                                message: '选择2到4个兴趣话题'
+                            }
+                        }
+                    }
+                }
+            });
+          });
+    </script>
+{% endblock %}

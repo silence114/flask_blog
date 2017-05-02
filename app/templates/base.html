@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <link href="{{ url_for('static',filename='css/base.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='css/bootstrap.css') }}" rel="stylesheet">
+
+    <nav class="row">
+        <div class="hidden-xs col-sm-3 col-md-2 col-lg-2 nav_logo">
+            <img class="logo img-responsive" src="{{ url_for('static',filename='images/logo.png') }}">
+        </div>
+        <div class="col-xs-9 col-sm-7 col-md-9 col-lg-9 nav_slogan">
+            <a class="slogan" href="/index">数据狗的点点滴滴</a>
+        </div>
+
+        <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 nav_user">
+            <img src="{{ url_for('static',filename='images/defalt_headimg.jpeg') }}" alt="登录" class="img-circle user_img">
+        </div>
+        <div id='user_info'>
+            {% if current_user.is_authenticated() %}
+                <div class="welcome">
+                    <span>你好, {{ current_user.username }}</span>
+                </div>
+                <div class = 'action'>
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    <a href="#"><span>编辑资料</span></a>
+                </div>
+                <div class = 'action'>
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                    <a href="/auth/logout"><span>登出</span></a>
+                </div>
+            {% else %}
+                <div class="welcome">
+                    <span>未登录用户</span>
+                </div>
+                <div class = 'action'>
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    <a href="/auth/register"><span>注册</span></a>
+                </div>
+                <div class = 'action'>
+                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                    <a href="/auth/login"><span>登录</span></a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% block content %} {% endblock %}
+
+    <footer class="col-xs-12">
+        <span class="copyright">© 2016 数据狗的点点滴滴 </span>
+        <span class="copyright">All rights reserved.</span>
+    </footer>
+
+    <script type="text/javascript" src="{{ url_for('static',filename='scripts/jquery-3.2.0.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='scripts/bootstrap.min.js') }}"></script>
+    <script>
+        $(".user_img").mouseover(function (){
+            $("#user_info").show();
+        }).mouseout(function (){
+            $("#user_info").hide();
+        });
+
+        $("#user_info").mouseover(function (){
+            $("#user_info").show();
+        }).mouseout(function (){
+            $("#user_info").hide();
+        });
+    </script>
+
+    {% block script %} {% endblock %}
+</body>
+</html>
