@@ -45,6 +45,8 @@ class Category(BaseModel):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True, unique=True)
     cate_name = Column(String(32), unique=True)
+    create_time = Column(DateTime, default=datetime.datetime.utcnow)  # 用户注册时间
+    modify_time = Column(DateTime, default=datetime.datetime.utcnow)  # 用户最近登录时间
 
 
 class Article(BaseModel):

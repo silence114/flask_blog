@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}
+    管理——分类
+{% endblock %}
+{% block content %}
+<link href="{{ url_for('static',filename='css/content.css') }}" rel="stylesheet">
+<div class="content container row">
+    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 categories">
+        <a href="/admin/category"><span class="nav-bar-tab" id="cate_0">分类管理</span></a>
+        <a href="/admin/article"><span class="nav-bar-tab active" id="cate_0">文章管理</span></a>
+        <a href="/admin/account"><span class="nav-bar-tab" id="cate_0">管理员账号</span></a>
+    </div>
+    <div class="col-xs-offset-4 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 col-xs-8 col-sm-9 col-md-10 col-lg-10"  style="padding: 20px;" >
+        <h2>欢迎光临,数据狗的点点滴滴后台管理页面!</h2>
+    </div>
+</div>
+
+{% endblock %}
