@@ -8,12 +8,12 @@ from config_util import ConfigUtil
 class MysqlUtil:
     def __init__(self):
         conf = ConfigUtil()
-        host = conf.get_config('host')
-        port = conf.get_config('port')
-        username = conf.get_config('username')
-        password = conf.get_config('password')
-        database = conf.get_config('database')
-        charset = conf.get_config('charset')
+        host = conf.get_config(conf='host', section='db_info')
+        port = conf.get_config(conf='port', section='db_info')
+        username = conf.get_config(conf='username', section='db_info')
+        password = conf.get_config(conf='password', section='db_info')
+        database = conf.get_config(conf='database', section='db_info')
+        charset = conf.get_config(conf='charset', section='db_info')
 
         self.DB_CONNECT_STRING = 'mysql+mysqldb://{username}:{password}@{host}:{port}/{database}?charset={charset}'.format(
             username=username,
