@@ -15,7 +15,7 @@ class MysqlUtil:
         database = conf.get_config(conf='database', section='db_info')
         charset = conf.get_config(conf='charset', section='db_info')
 
-        self.DB_CONNECT_STRING = 'mysql+mysqldb://{username}:{password}@{host}:{port}/{database}?characterEncoding={charset}'.format(
+        self.DB_CONNECT_STRING = 'mysql+mysqldb://{username}:{password}@{host}:{port}/{database}?charset={charset}'.format(
             username=username,
             password=password,
             host=host,
