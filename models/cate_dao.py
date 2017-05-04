@@ -8,8 +8,7 @@ import datetime
 
 class CategoryDAO:
     def __init__(self):
-        user_dao = MysqlUtil()
-        self.session = user_dao.get_session()
+        self.session = MysqlUtil().get_session()
 
     def add_category(self, cate_name):
         if self.get_cate_by_name(cate_name) is None:

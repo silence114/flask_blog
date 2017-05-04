@@ -83,6 +83,48 @@ def article():
         return render_template('admin/article.html')
 
 
+@admin.route('/admin/article/add')
+@login_required
+def article_add():
+    if current_user.is_admin == 0:
+        flash(u'只有管理员才有权限查看当前页面!')
+        return redirect(url_for('main.index'))
+    else:
+        # f = request.files['art_filepath']
+        # f.save(u'blogs/{file}'.format(file=f.filename))
+        #
+        # title = request.form['art_title']
+        # art_author = request.form['art_author']
+        #
+        # author_id = art_author.split('--')[0]
+        # author_name = art_author.split('--')[1]
+        #
+        # title = request.form['art_title']
+        # title = request.form['art_title']
+        # title = request.form['art_title']
+        #
+        #
+        # pattern = re.compile(u'，|,')
+        # tags = pattern.split(request.form['tags'])
+        # title = request.form['title']
+        # author = request.form['author']
+        # intro = request.form['intro']
+        # is_public = request.form['is_public']
+        # category = request.form['category']
+        # print 'debug info2'
+        # article_id = save_article(title, author, intro, is_public, f.filename, category)
+        # print 'debug info3'
+        # tag_ids = []
+        # for tag in tags:
+        #     tag_ids.append(save_tag(tag))
+        # print 'debug info4'
+        # save_tag_article_relation(article_id, tag_ids)
+        # print 'debug info5'
+        #
+        # # print 'debug info6'
+        return '上传成功!'
+
+
 @admin.route('/account')
 @login_required
 def account():
@@ -91,3 +133,52 @@ def account():
         return redirect(url_for('main.index'))
     else:
         return render_template('admin/account.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
