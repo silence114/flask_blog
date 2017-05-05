@@ -59,7 +59,6 @@ class CategoryDAO:
             return False, u'指定ID的类目不存在!'
 
 
-
 if __name__ == '__main__':
     print '--------'
     cate = CategoryDAO()

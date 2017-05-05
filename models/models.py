@@ -2,13 +2,16 @@
 # -*- coding:utf-8 -*-
 
 from utils.mysql_util import MysqlUtil
+from utils.config_util import ConfigUtil
+from werkzeug.security import generate_password_hash
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.types import Integer, String, DateTime, TIMESTAMP
+from sqlalchemy.types import Integer, String, DateTime
 from app import login_manager
 from flask.ext.login import UserMixin
 import datetime
-import json
+import MySQLdb
+
 BaseModel = declarative_base()
 
 
@@ -20,8 +23,8 @@ class User(UserMixin, BaseModel):
     email = Column(String(32), nullable=False, unique=True)                 # 用户注册邮箱
     status = Column(Integer, default=0)
     is_admin = Column(Integer, default=0)
-    register_time = Column(DateTime, default=datetime.datetime.utcnow)     # 用户注册时间
-    last_login_time = Column(DateTime, default=datetime.datetime.utcnow)   # 用户最近登录时间
+    register_time = Column(DateTime, default=datetime.datetime.now)     # 用户注册时间
+    last_login_time = Column(DateTime, default=datetime.datetime.now)   # 用户最近登录时间
 
     def __repr__(self):
         return 'id:{id},username:{username},email:{email},password:{password},register_time={time}'.format(
@@ -45,8 +48,8 @@ class Category(BaseModel):
     __tablename__ = 'categories'
     id = Column(Integer, primary_key=True, unique=True)
     cate_name = Column(String(32), unique=True)
-    create_time = Column(DateTime, default=datetime.datetime.utcnow)  # 用户注册时间
-    modify_time = Column(DateTime, default=datetime.datetime.utcnow)  # 用户最近登录时间
+    create_time = Column(DateTime, default=datetime.datetime.now)  # 用户注册时间
+    modify_time = Column(DateTime, default=datetime.datetime.now)  # 用户最近登录时间
 
 
 class Article(BaseModel):
@@ -59,11 +62,44 @@ class Article(BaseModel):
     auth_id = Column(Integer(), nullable=False)
     file_path = Column(String(128), nullable=False)
     tags = Column(String(128), nullable=True)
-    create_time = Column(DateTime, default=datetime.datetime.utcnow)
-    modified_time = Column(DateTime, default=datetime.datetime.utcnow)
+    create_time = Column(DateTime, default=datetime.datetime.now)
+    modified_time = Column(DateTime, default=datetime.datetime.now)
+
 
 def init_db():
+    conf = ConfigUtil()
+    host = conf.get_config(conf='host', section='db_info')
+    port = conf.get_config(conf='port', section='db_info')
+    username = conf.get_config(conf='username', section='db_info')
+    password = conf.get_config(conf='password', section='db_info')
+    database = conf.get_config(conf='database', section='db_info')
+
+    conn = MySQLdb.connect(host=host, user=username, passwd=password, port=int(port))
+    cur = conn.cursor()
+    sql = 'CREATE DATABASE IF NOT EXISTS `{db}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;'.format(db=database)
+
+    cur.execute(sql)
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    session = MysqlUtil().get_session()
     BaseModel.metadata.create_all(MysqlUtil().get_engine())
+
+    email = conf.get_config('email', 'admin_account')
+    if session.query(User).filter_by(email=email).first() is None:
+        password = conf.get_config('password', 'admin_account')
+        username = conf.get_config('username', 'admin_account')
+
+        user = User(username=username,
+                    password=generate_password_hash(password),
+                    email=email,
+                    status=1,
+                    is_admin=1,
+                    register_time=datetime.datetime.now(),
+                    last_login_time=datetime.datetime.now())
+        session.add(user)
+        session.commit()
 
 
 # flask-login 回调函数
