@@ -28,19 +28,18 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for article in article %}
+                    {% for article in articles %}
                         <tr>
-                            <td>{{ cate.id }}</td>
-                            <td>{{ cate.cate_name }}</td>
-                            <td>{{ cate.create_time }}</td>
-                            <td>{{ cate.create_time }}</td>
+                            <td>{{ article.id }}</td>
+                            <td>{{ article.title }}</td>
+                            <td>{{ article.auth_name }}</td>
+                            <td>{{ article.create_time }}</td>
+                            <td>{{ article.create_time }}</td>
                             <td>
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                                        data-id="{{ cate.id }}" data-name="{{ cate.cate_name }}"
-                                        data-createtime = '{{ cate.create_time  }}' data-modifytime="{{ cate.modify_time  }}">删除</button>
+                                        data-id="{{ article.id }} }}">删除</button>
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modifyModal"
-                                        data-id="{{ cate.id }}" data-name="{{ cate.cate_name }}"
-                                        data-createtime = '{{ cate.create_time  }}' data-modifytime="{{ cate.modify_time  }}">修改</button>
+                                        data-id="{{ article.id }}" >修改</button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -138,7 +137,7 @@
                 <h4 class="modal-title" id="addModalLabel">新建文章</h4>
             </div>
             <div class="modal-body">
-                <form action="/admin/article/add" method="post">
+                <form action="/admin/article/add" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="art_title" class="control-label">文章标题:</label>
                         <input type="text" class="form-control" id="art_title" name="art_title" placeholder="请输入文章标题!" required autofocus>
@@ -154,6 +153,7 @@
                     <div class="form-group">
                         <label for="art_cate" class="control-label">文章分类:</label>
                         <select class="form-control" id="art_cate" name="art_cate">
+                            <option value="-1">请选择</option>
                             {% for category in categories %}
                                 <option value="{{ category.id }}--{{ category.cate_name }}">{{ category.cate_name }}</option>
                             {% endfor %}
@@ -168,8 +168,8 @@
                         <input type="text" class="form-control" id="art_tags" name="art_tags" placeholder="文章标签,多个标签之间使用逗号分割!">
                     </div>
                     <div class="form-group">
-                        <label for="art_filepath" class="control-label">文件上传:</label>
-                        <input type="file" id="art_filepath" name="art_filepath">
+                        <label for="file" class="control-label">文件上传:</label>
+                        <input type="file" id="file" name="article">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>

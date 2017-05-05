@@ -5,9 +5,11 @@ from flask_login import current_user
 from . import admin
 from flask import flash, redirect, url_for, render_template, request
 from models.cate_dao import CategoryDAO
+from models.article_dao import ArticleDao
 
 
 @admin.route('/index')
+@admin.route('/')
 @login_required
 def index():
     if current_user.is_admin == 0:
@@ -80,25 +82,40 @@ def article():
         flash(u'只有管理员才有权限查看当前页面!')
         return redirect(url_for('main.index'))
     else:
-        return render_template('admin/article.html')
+        articles, info = ArticleDao().get_articles()
+        categories = CategoryDAO().get_categories()
+        print categories
+        return render_template('admin/article.html', articles=articles, categories=categories)
 
 
-@admin.route('/admin/article/add')
+@admin.route('/article/add', methods=['POST'])
 @login_required
 def article_add():
     if current_user.is_admin == 0:
         flash(u'只有管理员才有权限查看当前页面!')
         return redirect(url_for('main.index'))
     else:
-        # f = request.files['art_filepath']
-        # f.save(u'blogs/{file}'.format(file=f.filename))
-        #
-        # title = request.form['art_title']
-        # art_author = request.form['art_author']
-        #
-        # author_id = art_author.split('--')[0]
-        # author_name = art_author.split('--')[1]
-        #
+        f = request.files['article']
+        f.save(u'blogs/{file}'.format(file=f.filename))
+
+        title = request.form.get('art_title')
+        art_author = request.form.get('art_author')
+        author_id = art_author.split('--')[0] if art_author is not None else 1
+        author_name = art_author.split('--')[1] if art_author is not None else 'admin'
+        intro = request.form.get('art_intro')
+        tags = request.form.get('art_tags')
+
+        result, info = ArticleDao().new_article(title=title,
+                                                intro=intro,
+                                                author_id=author_id,
+                                                author_name=author_name,
+                                                filepath=u'blogs/{file}'.format(file=f.filename),
+                                                tags=tags
+                                                )
+
+        articles, info1 = ArticleDao().get_articles()
+        categories = CategoryDAO().get_categories()
+        return render_template('admin/article.html', articles=articles, categories=categories, info=info)
         # title = request.form['art_title']
         # title = request.form['art_title']
         # title = request.form['art_title']
