@@ -7,8 +7,8 @@
 <div class="content container row">
     <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 categories">
         <a href="/admin/category"><span class="nav-bar-tab active" id="cate_0">分类管理</span></a>
+        <a href="/admin/account"><span class="nav-bar-tab" id="cate_0">作者管理</span></a>
         <a href="/admin/article"><span class="nav-bar-tab" id="cate_0">文章管理</span></a>
-        <a href="/admin/account"><span class="nav-bar-tab" id="cate_0">管理员账号</span></a>
     </div>
     <div class="col-xs-offset-4 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 col-xs-8 col-sm-9 col-md-10 col-lg-10" style="padding: 20px 0px 10px 40px !important;">
         {% if info %}
@@ -68,19 +68,19 @@
                 <form action="/admin/category/delete" method="post">
                     <div class="form-group">
                         <label for="cate_id" class="control-label">类目ID:</label>
-                        <input type="text" class="form-control" id="cate_id" readonly=true name="cate_id">
+                        <input type="text" class="form-control" id="cate_id" readonly name="cate_id">
                     </div>
                     <div class="form-group">
                         <label for="cate_name" class="control-label">类目名称:</label>
-                        <input type="text" class="form-control" id="cate_name" readonly=true name="cate_name">
+                        <input type="text" class="form-control" id="cate_name" readonly name="cate_name">
                     </div>
                     <div class="form-group">
                         <label for="cate_name" class="control-label">添加时间:</label>
-                        <input type="text" class="form-control" id="add_time" readonly=true name="add_time">
+                        <input type="text" class="form-control" id="add_time" readonly name="add_time">
                     </div>
                     <div class="form-group">
                         <label for="cate_name" class="control-label">修改时间:</label>
-                        <input type="text" class="form-control" id="mod_time" readonly=true name="mod_time">
+                        <input type="text" class="form-control" id="mod_time" readonly name="mod_time">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal" required autofocus>取消</button>

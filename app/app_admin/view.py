@@ -6,6 +6,8 @@ from . import admin
 from flask import flash, redirect, url_for, render_template, request
 from models.cate_dao import CategoryDAO
 from models.article_dao import ArticleDao
+from models.author_dao import AuthorDAO
+import re
 
 
 @admin.route('/index')
@@ -84,8 +86,30 @@ def article():
     else:
         articles, info = ArticleDao().get_articles()
         categories = CategoryDAO().get_categories()
-        print categories
-        return render_template('admin/article.html', articles=articles, categories=categories)
+        authors = AuthorDAO().get_authors()
+        return render_template('admin/article.html', articles=articles, categories=categories, authors=authors)
+
+
+@admin.route('/article/delete', methods=['POST'])
+@login_required
+def article_delete():
+    if current_user.is_admin == 0:
+        flash(u'只有管理员才有权限查看当前页面!')
+        return redirect(url_for('main.index'))
+    else:
+        art_id = request.form.get('art_id')
+        print '=====>{id}<===='.format(id=art_id)
+        art_dao = ArticleDao()
+        article = art_dao.get_article_by_id(art_id)
+        if article is not None:
+            result, info = art_dao.delete_article(article)
+        else:
+            info = u'要删除的文章ID不存在!'
+
+        articles, info1 = art_dao.get_articles()
+        categories = CategoryDAO().get_categories()
+        authors = AuthorDAO().get_authors()
+        return render_template('admin/article.html', articles=articles, categories=categories, authors=authors, info=info)
 
 
 @admin.route('/article/add', methods=['POST'])
@@ -102,43 +126,27 @@ def article_add():
         art_author = request.form.get('art_author')
         author_id = art_author.split('--')[0] if art_author is not None else 1
         author_name = art_author.split('--')[1] if art_author is not None else 'admin'
+        category = request.form.get('art_cate')
+        cate_id = category.split('--')[0] if category is not None else 1
+        cate_name = category.split('--')[1] if category is not None else '未分类'
         intro = request.form.get('art_intro')
         tags = request.form.get('art_tags')
+        tags = tags.replace(u'，', ',')
 
         result, info = ArticleDao().new_article(title=title,
                                                 intro=intro,
                                                 author_id=author_id,
                                                 author_name=author_name,
+                                                cate_id=cate_id,
+                                                cate_name=cate_name,
                                                 filepath=u'blogs/{file}'.format(file=f.filename),
                                                 tags=tags
                                                 )
 
         articles, info1 = ArticleDao().get_articles()
         categories = CategoryDAO().get_categories()
-        return render_template('admin/article.html', articles=articles, categories=categories, info=info)
-        # title = request.form['art_title']
-        # title = request.form['art_title']
-        # title = request.form['art_title']
-        #
-        #
-        # pattern = re.compile(u'，|,')
-        # tags = pattern.split(request.form['tags'])
-        # title = request.form['title']
-        # author = request.form['author']
-        # intro = request.form['intro']
-        # is_public = request.form['is_public']
-        # category = request.form['category']
-        # print 'debug info2'
-        # article_id = save_article(title, author, intro, is_public, f.filename, category)
-        # print 'debug info3'
-        # tag_ids = []
-        # for tag in tags:
-        #     tag_ids.append(save_tag(tag))
-        # print 'debug info4'
-        # save_tag_article_relation(article_id, tag_ids)
-        # print 'debug info5'
-        #
-        # # print 'debug info6'
+        authors = AuthorDAO().get_authors()
+        return render_template('admin/article.html', articles=articles, categories=categories, authors=authors, info=info)
         return '上传成功!'
 
 
@@ -149,7 +157,57 @@ def account():
         flash(u'只有管理员才有权限查看当前页面!')
         return redirect(url_for('main.index'))
     else:
-        return render_template('admin/account.html')
+        authors = AuthorDAO().get_authors()
+        return render_template('admin/account.html', authors=authors)
+
+
+@admin.route('/account/add', methods=['POST'])
+@login_required
+def account_add():
+    if current_user.is_admin == 0:
+        flash(u'只有管理员才有权限查看当前页面!')
+        return redirect(url_for('main.index'))
+    else:
+        author_name = request.form.get('author_name')
+        auth_dao = AuthorDAO()
+        result, info = auth_dao.add_author(author_name)
+        authors = auth_dao.get_authors()
+        return render_template('admin/account.html', authors=authors, info=info)
+
+
+@admin.route('/account/delete', methods=['POST'])
+@login_required
+def account_delete():
+    if current_user.is_admin == 0:
+        flash(u'只有管理员才有权限查看当前页面!')
+        return redirect(url_for('main.index'))
+    else:
+        author_name = request.form.get('author_name')
+        auth_dao = AuthorDAO()
+        result, info = auth_dao.delete_author(author_name)
+        authors = auth_dao.get_authors()
+        return render_template('admin/account.html', authors=authors, info=info)
+
+
+@admin.route('/account/update', methods=['POST'])
+@login_required
+def account_update():
+    if current_user.is_admin == 0:
+        flash(u'只有管理员才有权限查看当前页面!')
+        return redirect(url_for('main.index'))
+    else:
+        author_name = request.form.get('author_name')
+        auth_dao = AuthorDAO()
+        author = auth_dao.get_author_by_name(author_name)
+        if author is not None:
+            info = u'修改失败,作者名已近存在!'
+        else:
+            author_id = request.form.get('author_id')
+            result, info = auth_dao.update_author(author_id, author_name)
+        authors = auth_dao.get_authors()
+        return render_template('admin/account.html', authors=authors, info=info)
+
+
 
 
 

@@ -60,8 +60,18 @@ class Article(BaseModel):
     intro = Column(String(516), nullable=False)
     auth_name = Column(String(32), nullable=False)
     auth_id = Column(Integer(), nullable=False)
+    cate_id = Column(Integer(), nullable=False)
+    cate_name = Column(String(128), nullable=False)
     file_path = Column(String(128), nullable=False)
     tags = Column(String(128), nullable=True)
+    create_time = Column(DateTime, default=datetime.datetime.now)
+    modified_time = Column(DateTime, default=datetime.datetime.now)
+
+
+class Author(BaseModel):
+    __tablename__='authors'
+    id = Column(Integer, primary_key=True, unique=True)
+    name = Column(String(128), unique=True, nullable=False)
     create_time = Column(DateTime, default=datetime.datetime.now)
     modified_time = Column(DateTime, default=datetime.datetime.now)
 

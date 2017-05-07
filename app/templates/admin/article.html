@@ -7,8 +7,8 @@
 <div class="content container row">
     <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 categories">
         <a href="/admin/category"><span class="nav-bar-tab" id="cate_0">分类管理</span></a>
+        <a href="/admin/account"><span class="nav-bar-tab" id="cate_0">作者管理</span></a>
         <a href="/admin/article"><span class="nav-bar-tab active" id="cate_0">文章管理</span></a>
-        <a href="/admin/account"><span class="nav-bar-tab" id="cate_0">管理员账号</span></a>
     </div>
     <div class="col-xs-offset-4 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 col-xs-8 col-sm-9 col-md-10 col-lg-10" style="padding: 20px 0px 10px 40px !important;">
         {% if info %}
@@ -21,7 +21,10 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>类目名称</th>
+                      <th>文章标题</th>
+                      <th>作者</th>
+                      <th>分类</th>
+                      <th>标签</th>
                       <th>创建时间</th>
                       <th>修改时间</th>
                       <th>操作</th>
@@ -33,13 +36,36 @@
                             <td>{{ article.id }}</td>
                             <td>{{ article.title }}</td>
                             <td>{{ article.auth_name }}</td>
+                            <td>{{ article.cate_name }}</td>
+                            <td>
+                                {% for tag in article.tags.split(',') %}
+                                    <span type="button" class="label label-default">{{ tag }}</span>
+                                {% endfor %}
+
+                            </td>
                             <td>{{ article.create_time }}</td>
-                            <td>{{ article.create_time }}</td>
+                            <td>{{ article.modified_time }}</td>
                             <td>
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                                        data-id="{{ article.id }} }}">删除</button>
+                                        data-id="{{ article.id }}"
+                                        data-title="{{ article.title }}"
+                                        data-author="{{ article.auth_name }}"
+                                        data-category="{{ article.cate_name }}"
+                                        data-tags="{{ article.tags }}"
+                                        data-intro="{{ article.intro }}"
+                                        data-create_time="{{ article.create_time }}"
+                                        data-modified_time="{{ article.modified_time }}"
+                                >删除</button>
                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modifyModal"
-                                        data-id="{{ article.id }}" >修改</button>
+                                        data-id="{{ article.id }}"
+                                        data-title="{{ article.title }}"
+                                        data-author="{{ article.auth_name }}"
+                                        data-category="{{ article.cate_name }}"
+                                        data-tags="{{ article.tags }}"
+                                        data-intro="{{ article.intro }}"
+                                        data-create_time="{{ article.create_time }}"
+                                        data-modified_time="{{ article.modified_time }}"
+                                >修改</button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -61,25 +87,41 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="deleteModalLabel">删除类目</h4>
+                <h4 class="modal-title" id="deleteModalLabel">删除文章</h4>
             </div>
             <div class="modal-body">
-                <form action="/admin/category/delete" method="post">
+                <form action="/admin/article/delete" method="post">
                     <div class="form-group">
-                        <label for="cate_id" class="control-label">类目ID:</label>
-                        <input type="text" class="form-control" id="cate_id" readonly=true name="cate_id">
+                        <label for="art_id" class="control-label">文章ID:</label>
+                        <input type="text" class="form-control" id="art_id" name="art_id"  readonly>
                     </div>
                     <div class="form-group">
-                        <label for="cate_name" class="control-label">类目名称:</label>
-                        <input type="text" class="form-control" id="cate_name" readonly=true name="cate_name">
+                        <label for="art_title" class="control-label">文章标题:</label>
+                        <input type="text" class="form-control" id="art_title" name="art_title"  readonly>
                     </div>
                     <div class="form-group">
-                        <label for="cate_name" class="control-label">添加时间:</label>
-                        <input type="text" class="form-control" id="add_time" readonly=true name="add_time">
+                        <label for="art_author" class="control-label">文章作者:</label>
+                        <input type="text" class="form-control" id="art_author" name="art_author"  readonly>
                     </div>
                     <div class="form-group">
-                        <label for="cate_name" class="control-label">修改时间:</label>
-                        <input type="text" class="form-control" id="mod_time" readonly=true name="mod_time">
+                        <label for="art_cate" class="control-label">文章分类:</label>
+                        <input type="text" class="form-control" id="art_cate" name="art_cate"  readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="art_intro" class="control-label">文章简介:</label>
+                        <textarea class="form-control" id="art_intro" name="art_intro" rows="3" cols="20" style="resize:vertical;" readonly></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="art_tags" class="control-label">文章标签:</label>
+                        <input type="text" class="form-control" id="art_tags" name="art_tags" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="create_time" class="control-label">创建时间:</label>
+                        <input type="text" class="form-control" id="create_time" name="create_time" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="modify_time" class="control-label">修改时间:</label>
+                        <input type="text" class="form-control" id="modify_time" name="modify_time" readonly>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal" required autofocus>取消</button>
@@ -98,25 +140,41 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="modifyModalLabel">删除类目</h4>
+                <h4 class="modal-title" id="modifyModalLabel">修改类目</h4>
             </div>
             <div class="modal-body">
-                <form action="/admin/category/update" method="post">
+                <form action="/admin/article/update" method="post">
                     <div class="form-group">
-                        <label for="cate_id" class="control-label">类目ID:</label>
-                        <input type="text" class="form-control" id="cate_id" readonly=true name="cate_id">
+                        <label for="art_id" class="control-label">文章ID:</label>
+                        <input type="text" class="form-control" id="art_id" name="art_id"  readonly>
                     </div>
                     <div class="form-group">
-                        <label for="cate_name" class="control-label">类目名称:</label>
-                        <input type="text" class="form-control" id="cate_name" name="cate_name" required autofocus>
+                        <label for="art_title" class="control-label">文章标题:</label>
+                        <input type="text" class="form-control" id="art_title" name="art_title">
                     </div>
                     <div class="form-group">
-                        <label for="cate_name" class="control-label">添加时间:</label>
-                        <input type="text" class="form-control" id="add_time" readonly=true name="add_time">
+                        <label for="art_author" class="control-label">文章作者:</label>
+                        <input type="text" class="form-control" id="art_author" name="art_author">
                     </div>
                     <div class="form-group">
-                        <label for="cate_name" class="control-label">修改时间:</label>
-                        <input type="text" class="form-control" id="mod_time" readonly=true name="mod_time">
+                        <label for="art_cate" class="control-label">文章分类:</label>
+                        <input type="text" class="form-control" id="art_cate" name="art_cate">
+                    </div>
+                    <div class="form-group">
+                        <label for="art_intro" class="control-label">文章简介:</label>
+                        <textarea class="form-control" id="art_intro" name="art_intro" rows="3" cols="20" style="resize:vertical;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="art_tags" class="control-label">文章标签:</label>
+                        <input type="text" class="form-control" id="art_tags" name="art_tags">
+                    </div>
+                    <div class="form-group">
+                        <label for="create_time" class="control-label">创建时间:</label>
+                        <input type="text" class="form-control" id="create_time" name="create_time" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="modify_time" class="control-label">修改时间:</label>
+                        <input type="text" class="form-control" id="modify_time" name="modify_time" readonly>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">取消</button>
@@ -153,7 +211,6 @@
                     <div class="form-group">
                         <label for="art_cate" class="control-label">文章分类:</label>
                         <select class="form-control" id="art_cate" name="art_cate">
-                            <option value="-1">请选择</option>
                             {% for category in categories %}
                                 <option value="{{ category.id }}--{{ category.cate_name }}">{{ category.cate_name }}</option>
                             {% endfor %}
@@ -186,28 +243,44 @@
 <script>
     $('#deleteModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);    // 触发事件的按钮
-        var cate_id = button.data('id');        // 解析出data-whatever内容
-        var cate_name = button.data('name');    // 解析出data-whatever内容
-        var create_time = button.data('createtime');
-        var modify_time = button.data('modifytime');
+        var id = button.data('id');        // 解析出data-whatever内容
+        var title = button.data('title');    // 解析出data-whatever内容
+        var author = button.data('author');
+        var category = button.data('category');
+        var intro = button.data('intro');
+        var tags = button.data('tags');
+        var create_time = button.data('create_time');
+        var modified_time = button.data('modified_time');
         var modal = $(this);
-        modal.find('#cate_id').val(cate_id);
-        modal.find('#cate_name').val(cate_name);
-        modal.find('#add_time').val(create_time);
-        modal.find('#mod_time').val(modify_time);
+        modal.find('#art_id').val(id);
+        modal.find('#art_title').val(title);
+        modal.find('#art_author').val(author);
+        modal.find('#art_cate').val(category);
+        modal.find('#art_tags').val(tags);
+        modal.find('#art_intro').val(intro);
+        modal.find('#create_time').val(create_time);
+        modal.find('#modify_time').val(modified_time);
     });
 
     $('#modifyModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);    // 触发事件的按钮
-        var cate_id = button.data('id');        // 解析出data-whatever内容
-        var cate_name = button.data('name');    // 解析出data-whatever内容
-        var create_time = button.data('createtime');
-        var modify_time = button.data('modifytime');
+        var id = button.data('id');        // 解析出data-whatever内容
+        var title = button.data('title');    // 解析出data-whatever内容
+        var author = button.data('author');
+        var category = button.data('category');
+        var intro = button.data('intro');
+        var tags = button.data('tags');
+        var create_time = button.data('create_time');
+        var modified_time = button.data('modified_time');
         var modal = $(this);
-        modal.find('#cate_id').val(cate_id);
-        modal.find('#cate_name').val(cate_name);
-        modal.find('#add_time').val(create_time);
-        modal.find('#mod_time').val(modify_time);
+        modal.find('#art_id').val(id);
+        modal.find('#art_title').val(title);
+        modal.find('#art_author').val(author);
+        modal.find('#art_cate').val(category);
+        modal.find('#art_tags').val(tags);
+        modal.find('#art_intro').val(intro);
+        modal.find('#create_time').val(create_time);
+        modal.find('#modify_time').val(modified_time);
     });
 </script>
 {% endblock %}

@@ -5,6 +5,7 @@ from models import Article
 
 import datetime
 
+
 class ArticleDao:
     def __init__(self):
         self.session = MysqlUtil().get_session()
@@ -22,13 +23,18 @@ class ArticleDao:
     def get_article_by_title(self, title):
         return self.session.query(Article).filter_by(title=title).first()
 
-    def new_article(self, title, author_id, author_name, intro, filepath, tags):
+    def get_article_by_id(self, id):
+        return self.session.query(Article).filter_by(id=id).first()
+
+    def new_article(self, title, author_id, author_name, cate_id, cate_name, intro, filepath, tags):
         article = Article(
             title=title,
             intro=intro,
             is_public=1,
             auth_id=author_id,
             auth_name=author_name,
+            cate_id=cate_id,
+            cate_name=cate_name,
             file_path=filepath,
             tags=tags,
             create_time=datetime.datetime.now(),
@@ -41,6 +47,11 @@ class ArticleDao:
             return True, u'成功添加新文章!'
         else:
             return False, u'文章标题已经存在!'
+
+    def delete_article(self, article):
+        self.session.delete(article)
+        self.session.commit()
+        return True, u'删除成功!'
 
 if __name__ == '__main__':
     dao = ArticleDao()
