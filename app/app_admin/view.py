@@ -7,7 +7,6 @@ from flask import flash, redirect, url_for, render_template, request
 from models.cate_dao import CategoryDAO
 from models.article_dao import ArticleDao
 from models.author_dao import AuthorDAO
-import re
 
 
 @admin.route('/index')
@@ -33,7 +32,7 @@ def category():
         return render_template('admin/category.html', categories=cate)
 
 
-@admin.route('/category/add',methods=['POST'])
+@admin.route('/category/add', methods=['POST'])
 @login_required
 def category_add():
     if current_user.is_admin == 0:
@@ -98,7 +97,6 @@ def article_delete():
         return redirect(url_for('main.index'))
     else:
         art_id = request.form.get('art_id')
-        print '=====>{id}<===='.format(id=art_id)
         art_dao = ArticleDao()
         article = art_dao.get_article_by_id(art_id)
         if article is not None:
@@ -147,7 +145,6 @@ def article_add():
         categories = CategoryDAO().get_categories()
         authors = AuthorDAO().get_authors()
         return render_template('admin/article.html', articles=articles, categories=categories, authors=authors, info=info)
-        return '上传成功!'
 
 
 @admin.route('/account')
@@ -206,54 +203,3 @@ def account_update():
             result, info = auth_dao.update_author(author_id, author_name)
         authors = auth_dao.get_authors()
         return render_template('admin/account.html', authors=authors, info=info)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

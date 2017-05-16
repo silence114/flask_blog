@@ -92,3 +92,9 @@ footer .copyright{
     color:#AAA;
 }
 
+body .content div .active {
+    background-color: #1e1d26;
+    border-right: solid 3px red;
+    cursor: pointer;
+    text-decoration: none;
+}ß

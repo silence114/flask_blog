@@ -35,15 +35,42 @@
         body .content div a{
             text-decoration: none;
         }
+        body .content .article_list .article{
+            border:1px solid;
+            width: 100%;
+        }
+
+        body .content .article_list a{
+            text-decoration: none !important;
+        }
+        .article{margin:10px 0;padding:10px;box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)!important;background-color:#FFFFFF;border-radius:5px;  }
+        .article:hover{border:solid 3px #32D3C3;cursor: pointer;}
     </style>
-<div class="content row">
-    <div class="hidden-xs col-sm-3 col-md-2 col-lg-2 categories">
-        <a href="/"><span class="nav-bar-tab" id="cate_0">最新文章</span></a>
-        {% for cate in categories %}
-            <a href="/category/{{ cate.id }}"><span class="nav-bar-tab" id="cate_0">{{ cate.cate_name }}</span></a>
-        {% endfor %}
-        <a href="/about_me"><span class="nav-bar-tab" id="cate_0">关于数据狗</span></a>
-        <a href="/"><span class="nav-bar-tab" id="cate_0">我要投稿</span></a>
+    <div class="content container">
+        <div class="row">
+            <div class="hidden-xs col-sm-3 col-md-2 col-lg-2 categories">
+                <a href="/"><span class="nav-bar-tab active" id="cate_0">最新文章</span></a>
+                {% for cate in categories %}
+                    <a href="/category/{{ cate.id }}"><span class="nav-bar-tab" id="cate_0">{{ cate.cate_name }}</span></a>
+                {% endfor %}
+                <a href="/about_me"><span class="nav-bar-tab" id="cate_0">关于数据狗</span></a>
+                <a href="/"><span class="nav-bar-tab" id="cate_0">我要投稿</span></a>
+            </div>
+            <div class="col-sx-12 col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10 article_list">
+                {%  for article in articles %}
+                    <a href="/article/{{ article.id }}">
+                        <div class="article">
+                            <div>{{ article.title }}</div>
+                            <div>{{ article.author }}</div>
+                            <div>{{ article.modified_time }}</div>
+                            <div>{{ article.intro }}</div>
+                            {% for tag in article.tags.split(',') %}
+                                <spam>{{ tag }}</spam>
+                            {% endfor %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}

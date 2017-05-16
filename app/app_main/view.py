@@ -3,6 +3,7 @@
 from flask_login import login_required
 from flask import render_template
 from models.cate_dao import CategoryDAO
+from models.article_dao import ArticleDao
 from . import main
 
 
@@ -10,9 +11,12 @@ from . import main
 @main.route('/index')
 def index():
     cate_dao = CategoryDAO()
-    cate_dao.get_categories()
     categories = cate_dao.get_categories()
-    return render_template('main/index.html', categories=categories)
+    articles, more = ArticleDao().get_articles()
+    return render_template('main/index.html',
+                           categories=categories,
+                           articles=articles,
+                           more=True if more == 'more' else False)
 
 
 @main.route('/about_me')

@@ -30,9 +30,3 @@ body .content div a{
     text-decoration: none;
 }
 
-body .content div .active{
-    background-color:#1e1d26;
-    border-right:solid 3px red;
-    cursor: pointer;
-    text-decoration: none;
-}
