@@ -123,15 +123,18 @@ def article_add():
 
         f = request.files['article']
 
+        import chardet
+        print '==========》》》》',chardet.detect(f.filename), '《《《《==========='
+
         title = request.form.get('art_title')
-        if ArticleDao().get_article_by_title(title) is not None:
+        if ArticleDao.get_article_by_title(title) is not None:
             articles, info1 = ArticleDao().get_articles()
             categories = CategoryDAO().get_categories()
             authors = AuthorDAO().get_authors()
             return render_template('admin/article.html', articles=articles, categories=categories, authors=authors,
                                    info=u'文章标题已经存在!')
 
-        f.save(u'blogs/{file}.html'.format(file=title))
+        f.save(u'blogs/{file}'.format(file=f.filename))
 
         art_author = request.form.get('art_author')
         author_id = art_author.split('--')[0] if art_author is not None else 1
@@ -149,7 +152,7 @@ def article_add():
                                                 author_name=author_name,
                                                 cate_id=cate_id,
                                                 cate_name=cate_name,
-                                                filepath=u'blogs/{file}.html'.format(file=title),
+                                                filepath=u'blogs/{file}'.format(file=f.filename),
                                                 tags=tags
                                                 )
         articles, info1 = ArticleDao().get_articles()
