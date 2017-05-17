@@ -118,9 +118,9 @@ def article_add():
         return redirect(url_for('main.index'))
     else:
         f = request.files['article']
-        print '====>', f.filename
+        print u'====>', unicode(f.filename)
 
-        f.save(u'blogs/{file}'.format(file=f.filename))
+        f.save(u'blogs/{file}'.format(file=unicode(f.filename)))
         print '====> file saved!'
 
         title = request.form.get('art_title')
