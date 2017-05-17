@@ -118,15 +118,18 @@ def article_add():
         return redirect(url_for('main.index'))
     else:
         f = request.files['article']
+        print '====>', f.filename
+
         f.save(u'blogs/{file}'.format(file=f.filename))
+        print '====> file saved!'
 
         title = request.form.get('art_title')
         art_author = request.form.get('art_author')
         author_id = art_author.split('--')[0] if art_author is not None else 1
-        author_name = art_author.split('--')[1] if art_author is not None else 'admin'
+        author_name = art_author.split('--')[1] if art_author is not None else u'admin'
         category = request.form.get('art_cate')
         cate_id = category.split('--')[0] if category is not None else 1
-        cate_name = category.split('--')[1] if category is not None else '未分类'
+        cate_name = category.split('--')[1] if category is not None else u'未分类'
         intro = request.form.get('art_intro')
         tags = request.form.get('art_tags')
         tags = tags.replace(u'，', ',')
@@ -140,7 +143,7 @@ def article_add():
                                                 filepath=u'blogs/{file}'.format(file=f.filename),
                                                 tags=tags
                                                 )
-
+        print '====>,article added!'
         articles, info1 = ArticleDao().get_articles()
         categories = CategoryDAO().get_categories()
         authors = AuthorDAO().get_authors()
