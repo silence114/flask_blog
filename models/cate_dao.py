@@ -58,15 +58,3 @@ class CategoryDAO:
         else:
             return False, u'指定ID的类目不存在!'
 
-
-if __name__ == '__main__':
-    print '--------'
-    cate = CategoryDAO()
-    result, info = cate.add_category('hive')
-    print '-----> ', info
-    result, info = cate.add_category('hadoop')
-    print '-----> ', info
-    print '=====>', cate.get_cate('hive')
-    for cat in cate.get_categories():
-        print cat.id,':',cat.cate_name
-

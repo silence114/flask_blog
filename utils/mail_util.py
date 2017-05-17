@@ -47,7 +47,6 @@ class MailUtil:
         smtp.ehlo()
         smtp.starttls()
         smtp.ehlo()
-        print self.mail_addr,':',self.password
         smtp.login(self.mail_addr, self.password)
         smtp.sendmail(self.mail_addr, email, msg.as_string())
         smtp.quit()

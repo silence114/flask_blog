@@ -53,10 +53,4 @@ class ArticleDao:
         self.session.commit()
         return True, u'删除成功!'
 
-if __name__ == '__main__':
-    dao = ArticleDao()
-    print dao.get_article_num()
-    articles,info = dao.get_articles()
-    for a in articles:
-        print a.id
 

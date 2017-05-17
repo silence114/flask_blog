@@ -9,7 +9,6 @@ class ConfigUtil:
     def __init__(self):
         self.Configurations = collections.defaultdict()
         self.sys_conf_file_path = os.path.sep.join([os.path.dirname(os.path.realpath(__file__)), '..', 'conf', 'sys_config.ini'])  # 获取配置文件的路径
-        print '-------->>>', self.sys_conf_file_path, '<<<------------'
         if os.path.exists(self.sys_conf_file_path) and os.path.isfile(self.sys_conf_file_path):
             self.conf = ConfigParser.ConfigParser()
             self.conf.read(self.sys_conf_file_path)

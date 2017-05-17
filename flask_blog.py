@@ -1,13 +1,16 @@
 from app import create_app
 from flask_script import Manager
 from models.models import init_db
+
+import sys
+
 app = create_app()
 
 
 if __name__ == '__main__':
     init_db()
-
-
+    reload(sys)
+    sys.setdefaultencoding('utf8')
     manager = Manager(app)
 
     @manager.command

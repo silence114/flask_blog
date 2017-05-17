@@ -26,7 +26,7 @@ class MysqlUtil:
 
     def get_engine(self):
         print self.DB_CONNECT_STRING
-        engine = create_engine(self.DB_CONNECT_STRING, echo=True)
+        engine = create_engine(self.DB_CONNECT_STRING)
         if engine is not None:
             return engine
         else:

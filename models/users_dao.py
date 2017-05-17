@@ -64,7 +64,6 @@ class UsersDAO:
     def confirm_email(self, email):
         user = self.get_user_by_email(email)
         if user is not None:
-            print '---------->> user.status:', user.status
             if user.status != 1:
                 user.status = 1
                 self.session.add(user)
