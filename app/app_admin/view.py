@@ -119,7 +119,7 @@ def article_add():
     else:
         f = request.files['article']
 
-        f.save(u'blogs/{file}'.format(file=f.filename))
+        f.save('blogs/{file}'.format(file=f.filename))
 
         title = request.form.get('art_title')
         art_author = request.form.get('art_author')
