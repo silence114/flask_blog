@@ -118,10 +118,8 @@ def article_add():
         return redirect(url_for('main.index'))
     else:
         f = request.files['article']
-        print u'====>', unicode(f.filename)
 
-        f.save(u'blogs/{file}'.format(file=unicode(f.filename)))
-        print '====> file saved!'
+        f.save(u'blogs/{file}'.format(file=f.filename))
 
         title = request.form.get('art_title')
         art_author = request.form.get('art_author')
@@ -143,7 +141,6 @@ def article_add():
                                                 filepath=u'blogs/{file}'.format(file=f.filename),
                                                 tags=tags
                                                 )
-        print '====>,article added!'
         articles, info1 = ArticleDao().get_articles()
         categories = CategoryDAO().get_categories()
         authors = AuthorDAO().get_authors()
