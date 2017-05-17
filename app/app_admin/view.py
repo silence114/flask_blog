@@ -119,7 +119,7 @@ def article_add():
     else:
         import sys
         reload(sys)
-        sys.setdefaultencoding("utf-8")
+        sys.setdefaultencoding(u"utf-8")
         f = request.files['article']
 
         f.save('blogs/{file}'.format(file=f.filename))
