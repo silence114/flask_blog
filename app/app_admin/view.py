@@ -117,6 +117,9 @@ def article_add():
         flash(u'只有管理员才有权限查看当前页面!')
         return redirect(url_for('main.index'))
     else:
+        import sys
+        reload(sys)
+        sys.setdefaultencoding("utf-8")
         f = request.files['article']
 
         f.save('blogs/{file}'.format(file=f.filename))
