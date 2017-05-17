@@ -122,7 +122,7 @@ def article_add():
         sys.setdefaultencoding(u"utf-8")
         f = request.files['article']
 
-        f.save('blogs/{file}'.format(file=f.filename))
+        f.save(u'blogs/{file}'.format(file=f.filename))
 
         title = request.form.get('art_title')
         art_author = request.form.get('art_author')
