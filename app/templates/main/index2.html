@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>{% block title %}  {% endblock %}</title>
+  </head>
+
+  <body>
+      <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      {% block style %} {% endblock %}
+      <style>
+          body{padding-top: 50px; font-family: 'Hiragino Sans GB', "Microsoft Yahei", "微软雅黑", sans-serif;}
+          .index_links{font-family: "Cabin", Arial, sans-serif;font-size: 18px;color: #32D3C3;}
+          .logo{height:43px;padding: 6px 20px 0px 20px;float: left;  }
+          #slogan{font-size: 21px; padding-left: 30px;color:#32D3C3  }
+          footer span{display:block;font-style:italic;font-size:12px;color:#AAA;}
+          footer{position:fixed !important;bottom:0;text-align:center;padding:10px;margin:0 0 0 -20px;}
+          @media (min-width: 768px) {.sidebar {
+                position: fixed;
+                top: 51px;
+                bottom: 0;
+                left: 0;
+                z-index: 1000;
+                display: block;
+                padding: 60px 20px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                background-color: #f5f5f5;
+                border-right: 1px solid #eee;
+              }
+          }
+          .nav-sidebar {
+              margin-right: -21px;
+              margin-bottom: 20px;
+              margin-left: -20px;
+            }
+          .nav-sidebar > li > a {text-align: right;font-size: 14px;padding-right: 20px;padding-left: 20px;}
+          .nav-sidebar > .active > a,
+          .nav-sidebar > .active > a:hover,
+          .nav-sidebar > .active > a:focus {color: #fff;background-color: #528bca;}
+          .main {
+              padding: 20px;
+          }
+          @media (min-width: 768px) {
+              .main {
+                  padding-right: 40px;;
+                  padding-left: 40px;
+                  overflow-x: hidden;
+              }
+          }
+          .meta{display: block;}
+          .article_meta{
+              margin:20px 0;padding:20px 30px 20px 30px;box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)!important;background-color:#fafafa;border-radius:5px;
+              border: 1px solid #dddddd;
+          }
+          .art_title{
+              font-size: 22px;
+              line-height: 40px;
+              color: #333333;
+          }
+          .art_author{
+              color: #aaaaaa;margin: 5px 0;
+          }
+          .art_intro{
+              font-size: 14px;
+              line-height: 22px;
+              color: #666666;
+              margin-bottom: 20px;
+          }
+          .tag{
+              margin-right:5px;font-size:14px;color:#32D3C3;border-radius:14px;border:1px solid #32D3C3;padding:6px 10px;
+          }
+          .tag:hover{
+              background-color: #32D3C3;
+              color:#fafafa;
+          }
+          .tag_list{
+              height: 40px;
+              padding-top: 20px;
+              border-top: 1px dashed #dddddd;
+          }
+          .cat_list a{
+              text-decoration: none;
+          }
+      </style>
+      <!--  导航栏  -->
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="#"><img class="logo img-responsive" src="{{ url_for('static',filename='images/logo.png') }}"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav hidden-xs">
+                <li><a href="/test" id="slogan">数据狗的点点滴滴</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active index_links"><a href="#">首页</a></li>
+                <li class="index_links" id="about"><a href="#">关于</a></li>
+                <li class="index_links" id="submit"><a href="#">投稿</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle index_links" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">你好,admin <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/auth/login">登录</a></li>
+                    <li><a href="/auth/register">注册</a></li>
+                    <li><a href="#">管理</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">消息中心</a></li>
+                  </ul>
+                </li>
+          </ul>
+        </div>
+      </div>
+      </nav>
+
+      <!-- 正文 -->
+      <div class="container-fluid">
+          <div class="row">
+              <div class="hidden-xs col-sm-3 col-md-2 sidebar">
+                  <ul class="nav nav-sidebar">
+                      <li class="active"><a href="/">最新文章</a></li>
+                      <li><a href="#">Reports</a></li>
+                      <li><a href="#">Analytics</a></li>
+                      <li><a href="#">Export</a></li>
+                  </ul>
+                  <footer class="hidden-xs col-sm-3 col-md-2">
+                      <span class="copyright">© 2017 数据狗的点点滴滴 </span>
+                      <span class="copyright">All rights reserved.</span>
+                  </footer>
+              </div>
+              <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                  <div class="cat_list">
+                      <a href="#">
+                          <div class="article_meta">
+                              <span class="meta art_title">这是文章标题</span>
+                              <span class="meta art_author">任杰 · 2017-05-19 23:59:59</span>
+                              <span class="meta art_intro">这是文章介绍,可能很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长</span>
+                              <div class="meta tag_list">
+                                  <a href="#"><span class="tag">tag1</span></a>
+                                  <a href="#"><span class="tag">tag1</span></a>
+                              </div>
+                          </div>
+                      </a>
+                      <div class="article_meta">
+                          <span class="meta art_title">这是文章标题</span>
+                          <span class="meta art_author">任杰 · 2017-05-19 23:59:59</span>
+                          <span class="meta art_intro">这是文章介绍,可能很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长</span>
+                          <div class="meta tag_list">
+                              <a><span class="tag">tag1</span></a>
+                              <a><span class="tag">tag1</span></a>
+                          </div>
+                      </div>
+
+                      <div class="article_meta">
+                          <span class="meta art_title">这是文章标题</span>
+                          <span class="meta art_author">任杰 · 2017-05-19 23:59:59</span>
+                          <span class="meta art_intro">这是文章介绍,可能很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长</span>
+                          <div class="meta tag_list">
+                              <span class="tag">tag1</span>
+                              <span class="tag">tag1</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+    <!-- ================================================== -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% block script %}{% endblock %}  <!-- 自定义脚本区 -->
+  </body>
+</html>

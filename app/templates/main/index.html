@@ -4,6 +4,9 @@
 {% endblock %}
 {% block content %}
     <style>
+    a{text-decoration:none !important;color: #1e1d26 !important;}
+    a:hover{cursor:pointer;text-decoration:none !important;}
+
         body .content {
             width: 100%;
         }
@@ -43,12 +46,19 @@
         body .content .article_list a{
             text-decoration: none !important;
         }
-        .article{margin:10px 0;padding:10px;box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)!important;background-color:#FFFFFF;border-radius:5px;  }
-        .article:hover{border:solid 3px #32D3C3;cursor: pointer;}
+        .post_title{display: block;font-size:20px;line-height: 30px;}
+        .post_meta{display: inline-block;padding-right: 8px;font-size: 12px;color: #AAAAAA;line-height: 20px;}
+        .post_intro{display:block;border-bottom:1px dashed #DDD;padding: 5px 0;}
+        article{margin:10px 0;padding:10px 15px;box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)!important;background-color:#FFFFFF;border-radius:5px;  }
+        article:hover{border:solid 3px #32D3C3;cursor: pointer;}
+        .tag{margin: 10px 5px; font-size:14px;color:#32D3C3;border-radius:10px;border:1px solid #32D3C3;padding:5px 8px;}
+        .tag:hover{text-decoration:none}
+        .tag_list{margin-top:5px;}
+
     </style>
     <div class="content container">
         <div class="row">
-            <div class="hidden-xs col-sm-3 col-md-2 col-lg-2 categories">
+            <div class="hidden-xs col-sm-2 col-md-2 col-lg-2 categories">
                 <a href="/"><span class="nav-bar-tab active" id="cate_0">最新文章</span></a>
                 {% for cate in categories %}
                     <a href="/category/{{ cate.id }}"><span class="nav-bar-tab" id="cate_0">{{ cate.cate_name }}</span></a>
@@ -57,19 +67,23 @@
                 <a href="/"><span class="nav-bar-tab" id="cate_0">我要投稿</span></a>
             </div>
             <div class="col-sx-12 col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10 article_list">
-                {%  for article in articles %}
-                    <a href="/article/{{ article.id }}">
-                        <div class="article">
-                            <div>{{ article.title }}</div>
-                            <div>{{ article.author }}</div>
-                            <div>{{ article.modified_time }}</div>
-                            <div>{{ article.intro }}</div>
+            {% for article in articles %}
+                <a href="/article/{{article.id}}">
+                    <div class='article_list col-xs-12 col-sm-10 col-md-10 col-lg-10 col-lg-offset-1 col-sm-offset-1'>
+                        <article>
+                            <span class='post_title'>{{ article.title }}</span>
+                            <span class='post_meta'>{{ article.author }}</span>
+                            <span class='post_meta'>{{ article.modified_time}}</span>
+                            <span class='post_intro'>{{ article.intro }}</span>
+                            <div class='tag_list'>
                             {% for tag in article.tags.split(',') %}
-                                <spam>{{ tag }}</spam>
+                                <a href='/tag/{{ tag }}'><span class='tag'>{{ tag }}</span></a>
                             {% endfor %}
-                        </div>
-                    </a>
-                {% endfor %}
+                            </div>
+                        </article>
+                    </div>
+                </a>
+            {% endfor %}
             </div>
         </div>
     </div>

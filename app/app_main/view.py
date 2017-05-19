@@ -22,3 +22,13 @@ def index():
 @main.route('/about_me')
 def about_me():
     return render_template('about_me.html')
+
+
+@main.route('/test')
+def test():
+    return render_template('main/index2.html')
+
+
+@main.route('/test1')
+def test1():
+    return render_template('main/index3.html')
