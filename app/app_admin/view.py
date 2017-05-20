@@ -123,9 +123,6 @@ def article_add():
 
         f = request.files['article']
 
-        import chardet
-        print '==========》》》》',chardet.detect(f.filename), '《《《《==========='
-
         title = request.form.get('art_title')
         if ArticleDao.get_article_by_title(title) is not None:
             articles, info1 = ArticleDao().get_articles()
