@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{{ url_for('static',filename='images/favicon.png') }}">
+
+    <title>{% block title %}  {% endblock %}</title>
+  </head>
+
+  <body>
+      {% block style %} {% endblock %}
+      <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="{{ url_for('static',filename='css/base_new.css') }}" rel="stylesheet">
+
+
+      <!--  导航栏  -->
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="#"><img class="logo img-responsive" src="{{ url_for('static',filename='images/logo.png') }}"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav hidden-xs">
+                <li><a href="/test" id="slogan">数据狗的点点滴滴</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active index_links"><a href="#">首页</a></li>
+                <li class="index_links" id="about"><a href="#">关于</a></li>
+                <li class="index_links" id="submit"><a href="#">投稿</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle index_links welcome" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+
+                      {% if current_user.is_authenticated() %}
+                      你好，{{ current_user.username }}
+                      {% else %}未登录用户
+                      {% endif %}
+                      <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                      {% if current_user.is_authenticated() %}
+                          <li><a href="/main/message">消息中心</a></li>
+                          <li><a href="/auth/edit">
+                              <span class="glyphicon glyphicon-edit op-item" aria-hidden="true"></span>
+                              资料编辑
+                          </a></li>
+                          <li role="separator" class="divider"></li>
+                          <li><a href="/auth/logout">
+                              <span class="glyphicon glyphicon-log-out op-item" aria-hidden="true"></span>
+                              登出
+                          </a></li>
+
+                      {% else %}
+                          <li>
+                              <a href="/auth/login">
+                                  <span class="glyphicon glyphicon-log-out op-item" aria-hidden="true"></span>
+                                  登录
+                              </a>
+                          </li>
+                          <li><a href="/auth/register">
+                              <span class="glyphicon glyphicon-edit op-item" aria-hidden="true"></span>
+                              注册
+                          </a></li>
+                      {% endif %}
+
+                  </ul>
+                </li>
+          </ul>
+        </div>
+      </div>
+      </nav>
+
+      <!-- 正文 -->
+      <div class="container-fluid">
+          <div class="row">
+              <div class="hidden-xs col-sm-3 col-md-2 sidebar">
+                  <ul class="nav nav-sidebar">
+                      {% block cate_list %}
+                          <li id="cate_default"><a href="/">最新文章</a></li>
+                          {% for cate in categories %}
+                              <li id="cate_{{ cate.id }}"><a href="/category/{{ cate.id }}">{{ cate.cate_name }}</a></li>
+                          {% endfor %}
+                      {% endblock %}
+                  </ul>
+                  <footer class="hidden-xs col-sm-3 col-md-2">
+                      <span class="copyright">© 2017 数据狗的点点滴滴 </span>
+                      <span class="copyright">All rights reserved.</span>
+                  </footer>
+              </div>
+              <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = 'main'>
+                  <div class="cat_list" id="cat_list">
+                      {% block art_list %}
+{#                      <a href="#">#}
+{#                          <div class="article_meta">#}
+{#                              <span class="meta art_title">这是文章标题</span>#}
+{#                              <span class="meta art_author">任杰 · 2017-05-19 23:59:59</span>#}
+{#                              <span class="meta art_intro">这是文章介绍,可能很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长</span>#}
+{#                              <div class="meta tag_list">#}
+{#                                  <a href="#"><span class="tag">tag1</span></a>#}
+{#                                  <a href="#"><span class="tag">tag1</span></a>#}
+{#                              </div>#}
+{#                          </div>#}
+{#                      </a>#}
+                           {% for article in articles %}
+                               <a href="/article/{{ article.id }}">
+                                   <div class="article_meta">
+                                       <span class="meta art_title">{{ article.title }}</span>
+                                       <span class="meta art_author">{{ article.auth_name }} · {{ article.modified_time }}</span>
+                                       <span class="meta art_intro">{{ article.intro }}</span>
+                                       <div class="meta tag_list">
+                                           {% for tag in article.tags.split(',') %}
+                                                <a href="/tag/{{ tag }}"><span class="tag">{{ tag }}</span></a>
+                                           {% endfor %}
+                                       </div>
+                                   </div>
+                               </a>
+                           {% endfor %}
+                      {% endblock %}
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+    <!-- ================================================== -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            $('.nav-sidebar .active').removeClass('active');
+            {% if active_cat %}
+                $('#cate_{{ active_cat }}').addClass('active');
+            {% else %}
+                $('#cate_default').addClass('active');
+            {% endif %}
+        });
+    </script>
+    <!-- 自定义脚本区 -->
+    {% block script %}
+
+    {% endblock %}
+  </body>
+</html>

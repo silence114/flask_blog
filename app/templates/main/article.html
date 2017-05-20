@@ -1,0 +1,43 @@
+{% extends "base_new.html" %}
+{% block title %}
+    文章
+{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/static/css/marxico.css">
+    <style>
+        #main{
+            padding-left:0 ! important;
+            padding-right:0 ! important;
+        }
+        .nav>li>a {
+            margin-top: -5px;
+        }
+        .navbar {
+            height: 50px;
+        }
+        .dropdown-menu>li>a
+        {
+            border: none;
+        }
+    </style>
+
+{% endblock %}
+
+{% block art_list %}
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        $.ajax({type:"GET"
+            ,async:true
+            ,url:"/getArticleContext/{{article_id}}"
+        }).done(function(html){
+            html = "<div class='col-xs-12 col-sm-12 col-md-10 col-lg-10 col-lg-offset-1 col-md-offset-1' style='padding:0px;'>"+html+"</div>";
+            $("#main").html(html);
+{#            $("#main").css('padding-left','0 ! important').css('padding-right','0 ! important');#}
+        });
+    </script>
+{% endblock %}
+

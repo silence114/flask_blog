@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 from utils.mysql_util import MysqlUtil
+from sqlalchemy import desc
 from models import Article
 
 import datetime
@@ -15,7 +16,7 @@ class ArticleDao:
         if page * size > article_num:
             return None, u'分页数超出最大值'
         info = u'more' if (page + 1) * size < article_num else u'nomore'
-        return self.session.query(Article).order_by('id').offset(size * page).limit(size).all(), info
+        return self.session.query(Article).order_by(desc(Article.modified_time)).offset(size * page).limit(size).all(), info
 
     def get_article_num(self):
         return self.session.query(Article).count()
@@ -53,4 +54,12 @@ class ArticleDao:
         self.session.commit()
         return True, u'删除成功!'
 
+    def get_articles_by_cate(self, cate, page=0, size=20):
+        article_num = self.get_article_num()
+        if page * size > article_num:
+            return None, u'分页数超出最大值'
+        info = u'more' if (page + 1) * size < article_num else u'nomore'
+        return self.session.query(Article).filter_by(cate_id=cate).order_by(desc(Article.modified_time)).offset(size * page).limit(size).all(), info
 
+if __name__ == '__main__':
+    print ArticleDao().get_article_by_id(5)
