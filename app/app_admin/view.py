@@ -124,7 +124,7 @@ def article_add():
         f = request.files['article']
 
         title = request.form.get('art_title')
-        if ArticleDao.get_article_by_title(title) is not None:
+        if ArticleDao().get_article_by_title(title) is not None:
             articles, info1 = ArticleDao().get_articles()
             categories = CategoryDAO().get_categories()
             authors = AuthorDAO().get_authors()
