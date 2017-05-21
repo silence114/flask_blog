@@ -75,6 +75,9 @@ def get_article_content(article_id):
             html = '\n'.join(blog.readlines())
         return html
     except IOError:
-        print 'can not find the file : {filename}'.format(filename=filename)
         abort(500)
 
+
+@main.route('/about')
+def about():
+    return render_template('about.html')

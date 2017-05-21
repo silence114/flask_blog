@@ -15,6 +15,7 @@
 
   <body>
       {% block style %} {% endblock %}
+      <link href="{{ url_for('static',filename='css/about.css') }}" rel="stylesheet">
       <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
       <link href="{{ url_for('static',filename='css/base_new.css') }}" rel="stylesheet">
 
@@ -93,23 +94,55 @@
       <!-- 正文 -->
       <div class="container-fluid">
           <div class="row">
-              <div class="hidden-xs col-sm-3 col-md-2 sidebar">
-                  <ul class="nav nav-sidebar">
-                      {% block cate_list %}
-                          <li id="cate_default"><a href="/">最新文章</a></li>
-                          {% for cate in categories %}
-                              <li id="cate_{{ cate.id }}"><a href="/category/{{ cate.id }}">{{ cate.cate_name }}</a></li>
-                          {% endfor %}
-                      {% endblock %}
-                  </ul>
-                  <footer class="hidden-xs col-sm-3 col-md-2">
-                      <span class="copyright">© 2017 数据狗的点点滴滴 </span>
-                      <span class="copyright">All rights reserved.</span>
-                  </footer>
-              </div>
-              <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id = 'main'>
+{#              <div class="hidden-xs col-sm-3 col-md-2 sidebar">#}
+{#                  <ul class="nav nav-sidebar">#}
+{#                      {% block cate_list %}#}
+{#                          <li id="cate_default"><a href="/">最新文章</a></li>#}
+{#                          {% for cate in categories %}#}
+{#                              <li id="cate_{{ cate.id }}"><a href="/category/{{ cate.id }}">{{ cate.cate_name }}</a></li>#}
+{#                          {% endfor %}#}
+{#                      {% endblock %}#}
+{#                  </ul>#}
+{#                  <footer class="hidden-xs col-sm-3 col-md-2">#}
+{#                      <span class="copyright">© 2017 数据狗的点点滴滴 </span>#}
+{#                      <span class="copyright">All rights reserved.</span>#}
+{#                  </footer>#}
+{#              </div>#}
+              <div class="col-xs-12" id = 'main'>
                   <div class="cat_list" id="cat_list">
-                      {% block art_list %}
+                      <div class="page">
+	<div class="box">
+		<ul class="event_year">
+			<li class="current"><label for="2017">2017</label></li>
+            <li><label for="2016">2016</label></li>
+			<li><label for="2015">2015</label></li>
+		</ul>
+
+		<ul class="event_list">
+			<div>
+				<h3 id="2017">2017</h3>
+				<li><span>5月</span><p><span>趁着腾讯云搞活动,买了个域名,买了个云服务器,2核,4G内存。花了将近一千大洋,心疼啊。于是就有了数据狗!</span></p></li>
+				<li><span>4月</span><p><span>自学前端,开发数据狗博客,过程中遇到各种奇葩,过程不可谓不艰辛,好在虽是个半吊子前端,靠着拼拼凑凑,以及东边抄一点,西边仿一点,总算还是吧数据狗大概的界面给开发出来了</span></p></li>
+				<li><span>3月</span><p><span>萌生一个想法,老子想搞个个人博客,写写技术文章,至于理由嘛,以后简历上能有点东西吹牛逼!</span></p></li>
+			</div>
+            <div>
+                <h3 id="2016">2016</h3>
+                <li><span>6月</span><p><span>正式从浙江大学软件学院毕业!</span></p></li>
+                <li><span>2月 - 5月</span><p><span>忙着毕设,每天泡图书馆,写论文,好在毕设写的内容都是实习相关的内容,码字也没码多久,不过写完总感觉不踏实,毕竟水水的~,拿给老师初审,老师让改了一遍又一遍!期间还忙着找工作,现在想想我也是听牛逼的,光实习就呆了四家公司!!!</span></p></li>
+            </div>
+            <div>
+                <h3 id="2015">2015</h3>
+                <li><span>11月</span><p><span>开始在网易进行数据库运维工程师的实习,然而去了自后发现啥事也没有!于是开始自己学习了一段时间的Django</span></p></li>
+                <li><span>10月</span><p><span>很不幸,遭遇阿里缩招,不幸沦为`阿里宝宝`,遂在十一假期之后结束结束了蚂蚁金服的实习,期间面了网易的数据库运维工程师,起就是传说中的DBA,本来吧只是试试,没想到还面上了~,哎,有心栽花花不发,无心插柳柳成荫!</span></p></li>
+                <li><span>5月</span><p><span>结束学校课程,开始在蚂蚁金服实习</span></p></li>
+                <li><span>2月 - 5月</span><p><span>忙着毕设,每天泡图书馆,写论文,好在毕设写的内容都是实习相关的内容,码字也没码多久,不过写完总感觉不踏实,毕竟水水的~,拿给老师初审,老师让改了一遍又一遍!期间还忙着找工作,现在想想我也是听牛逼的,光实习就呆了四家公司!!!</span></p></li>
+            </div>
+
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+</div>
+{#                      {% block art_list %}#}
 {#                      <a href="#">#}
 {#                          <div class="article_meta">#}
 {#                              <span class="meta art_title">这是文章标题</span>#}
@@ -121,21 +154,22 @@
 {#                              </div>#}
 {#                          </div>#}
 {#                      </a>#}
-                           {% for article in articles %}
-                               <a href="/article/{{ article.id }}">
-                                   <div class="article_meta">
-                                       <span class="meta art_title">{{ article.title }}</span>
-                                       <span class="meta art_author">{{ article.auth_name }} · {{ article.modified_time }}</span>
-                                       <span class="meta art_intro">{{ article.intro }}</span>
-                                       <div class="meta tag_list">
-                                           {% for tag in article.tags.split(',') %}
-                                                <a href="/tag/{{ tag }}"><span class="tag">{{ tag }}</span></a>
-                                           {% endfor %}
-                                       </div>
-                                   </div>
-                               </a>
-                           {% endfor %}
-                      {% endblock %}
+{#                           {% for article in articles %}#}
+{#                               <a href="/article/{{ article.id }}">#}
+{#                                   <div class="article_meta">#}
+{#                                       <span class="meta art_title">{{ article.title }}</span>#}
+{#                                       <span class="meta art_author">{{ article.auth_name }} · {{ article.modified_time }}</span>#}
+{#                                       <span class="meta art_intro">{{ article.intro }}</span>#}
+{#                                       <div class="meta tag_list">#}
+{#                                           {% for tag in article.tags.split(',') %}#}
+{#                                                <a href="/tag/{{ tag }}"><span class="tag">{{ tag }}</span></a>#}
+{#                                           {% endfor %}#}
+{#                                       </div>#}
+{#                                   </div>#}
+{#                               </a>#}
+{#                           {% endfor %}#}
+{#                      {% endblock %}#}
+
                   </div>
               </div>
           </div>
@@ -154,10 +188,15 @@
                 $('#cate_default').addClass('active');
             {% endif %}
         });
+        $(function(){
+                $('label').click(function(){
+                    $('.event_year>li').removeClass('current');
+                    $(this).parent('li').addClass('current');
+                    var year = $(this).attr('for');
+                    $('#'+year).parent().prevAll('div').slideUp(800);
+                    $('#'+year).parent().slideDown(800).nextAll('div').slideDown(800);
+                });
+        });
     </script>
-    <!-- 自定义脚本区 -->
-    {% block script %}
-
-    {% endblock %}
   </body>
 </html>
