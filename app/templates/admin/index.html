@@ -1,51 +1,16 @@
-{% extends "base.html" %}
+{% extends "base_new.html" %}
 {% block title %}
-    首页
+    后台管理
 {% endblock %}
-{% block content %}
-<link href="{{ url_for('static',filename='css/content.css') }}" rel="stylesheet">
 
-{#    <style>#}
-{#        body .content {#}
-{#            width: 100%;#}
-{#        }#}
-{#        body .content .categories{#}
-{#            background-color: #2A2935;#}
-{#            height:100%;#}
-{#            position:fixed;#}
-{#            top:80px;#}
-{#            left: 0px;#}
-{#            margin-bottom: 80px;#}
-{#            padding:40px 0 0 0 ;#}
-{#            float:left;#}
-{#            background-color:#2A2935;#}
-{#        }#}
-{#        body .content div .nav-bar-tab{#}
-{#            padding-right:10px;#}
-{#            line-height:40px;#}
-{#            text-align: right;#}
-{#            font-size:16px;#}
-{#            display: block;#}
-{#            color: #999;#}
-{#        }#}
-{#        body .content div .nav-bar-tab:hover{#}
-{#            background-color:#1e1d26;#}
-{#            border-right:solid 3px #32D3C3;#}
-{#            cursor: pointer;#}
-{#            text-decoration: none;#}
-{#        }#}
-{#        body .content div a{#}
-{#            text-decoration: none;#}
-{#        }#}
-{#    </style>#}
-<div class="content container row">
-    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 categories">
-        <a href="/admin/category"><span class="nav-bar-tab" id="cate_0">分类管理</span></a>
-        <a href="/admin/article"><span class="nav-bar-tab" id="cate_0">文章管理</span></a>
-        <a href="/admin/account"><span class="nav-bar-tab" id="cate_0">作者管理</span></a>
+{% block cate_list %}
+    <li><a href="/admin/category">分类管理</a></li>
+    <li><a href="/admin/article">文章管理</a></li>
+    <li><a href="/admin/account">作者管理</a></li>
+{% endblock %}
+
+{% block art_list %}
+    <div style="padding: 20px;" >
+        <h2>欢迎光临,数据狗的点点滴滴后台管理页面!!</h2>
     </div>
-    <div class="col-xs-offset-4 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 col-xs-8 col-sm-9 col-md-10 col-lg-10"  style="padding: 20px;" >
-        <h2>欢迎光临,数据狗的点点滴滴后台管理页面!</h2>
-    </div>
-</div>
 {% endblock %}

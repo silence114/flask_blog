@@ -3,8 +3,9 @@
 from . import auth
 from flask import request, redirect, render_template, flash, url_for
 from forms import LoginForm
-from flask_login import login_user,logout_user
+from flask_login import login_user, logout_user
 from models.users_dao import UsersDAO
+from models.cate_dao import CategoryDAO
 from models.models import User
 from werkzeug.security import check_password_hash,generate_password_hash
 from datetime import datetime
@@ -19,7 +20,7 @@ import re
 def login():
     login_form = LoginForm()
     if request.method == 'GET':
-        return render_template('auth/login1.html', login_form=login_form)
+        return render_template('auth/login1.html', login_form=login_form, categories=CategoryDAO().get_categories())
     else:
         password = request.form.get('password')
         email = request.form.get('email')
@@ -45,7 +46,7 @@ def logout():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
-        return render_template('auth/regisiter.html', error_msg=None)
+        return render_template('auth/regisiter.html', categories=CategoryDAO().get_categories())
     else:
         username = request.form.get('username')
         email = request.form.get('email')

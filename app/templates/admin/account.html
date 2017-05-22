@@ -1,17 +1,25 @@
-{% extends "base.html" %}
+{% extends "base_new.html" %}
 {% block title %}
-    管理——分类
+    管理——作者
 {% endblock %}
-{% block content %}
-<link href="{{ url_for('static',filename='css/content.css') }}" rel="stylesheet">
-<div class="content container row">
-    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2 categories">
-        <a href="/admin/category"><span class="nav-bar-tab" id="cate_0">分类管理</span></a>
-        <a href="/admin/article"><span class="nav-bar-tab" id="cate_0">文章管理</span></a>
-        <a href="/admin/account"><span class="nav-bar-tab active" id="cate_0">作者管理</span></a>
-    </div>
-    <div class="col-xs-offset-4 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 col-xs-8 col-sm-9 col-md-10 col-lg-10"  style="padding: 20px 0px 10px 40px;" >
-                {% if info %}
+
+{% block style %}
+    <style>
+    .main{
+        padding: 0!important;
+    }
+    </style>
+{% endblock %}
+
+{% block cate_list %}
+    <li><a href="/admin/category">分类管理</a></li>
+    <li><a href="/admin/article">文章管理</a></li>
+    <li class='active' id="cate_default"><a href="/admin/account">作者管理</a></li>
+{% endblock %}
+
+{% block art_list %}
+    <div style="padding: 40px 20px 20px 20px;" >
+        {% if info %}
             <div class="alert alert-warning">{{ info }}</div>
         {% endif %}
         <div class="panel panel-default">
@@ -59,7 +67,6 @@
             新建作者
         </button>
     </div>
-</div>
 <!-- 删除类目 -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
     <div class="modal-dialog" role="document">

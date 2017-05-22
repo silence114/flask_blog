@@ -72,10 +72,10 @@ footer{position:fixed !important;bottom:0;text-align:center;padding:10px;margin:
     text-decoration: none;
 }
 .welcome{
-    margin-left: 40px !important;
+    margin-left: 30px !important;
     font-size: 14px;
     color: #9d9d9d;
-    width: 160px;
+    /*width: 160px;*/
 }
 .op-item{
     margin-right: 3px;
