@@ -24,21 +24,11 @@ def about_me():
     return render_template('about_me.html')
 
 
-@main.route('/test')
-def test():
-    return render_template('main/index2.html')
-
-
-@main.route('/test1')
-def test1():
-    return render_template('base_new.html')
-
-
 @main.route('/category/<int:category_id>')
 def category(category_id):
     cate_dao = CategoryDAO()
-    # if cate_dao.get_cate_by_id(category_id) is None:
-    #     abort(404)
+    if cate_dao.get_cate_by_id(category_id) is None:
+        abort(404)
     categories = cate_dao.get_categories()
 
     articles, more = ArticleDao().get_articles_by_cate(category_id)
@@ -52,7 +42,6 @@ def category(category_id):
 
 @main.route('/article/<int:article_id>')
 def article(article_id):
-    print '====>> {info} <<===='.format(info=article_id)
     categories = CategoryDAO().get_categories()
     article1 = ArticleDao().get_article_by_id(article_id)
     if article1 is None:
