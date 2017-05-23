@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 from . import auth
-from flask import request, redirect, render_template, flash, url_for
+from flask import request, redirect, render_template, flash, url_for, abort
 from forms import LoginForm
 from flask_login import login_user, logout_user
 from models.users_dao import UsersDAO
@@ -56,8 +56,6 @@ def register():
         interest = request.form.getlist('interest')
         agree = request.form.get('agree')
 
-        print '====>>',username,email,password,repassword,agree
-
         if not re.compile('^[0-9a-zA-Z]{4,20}$').match(username):
             return render_template('auth/regisiter.html', error_msg=u'昵称为长度4到20的字母、数字、下划线、@、#、$组合')
         if len(password) < 4 or len(password) > 20:
@@ -81,7 +79,10 @@ def register():
                     )
         user_dao.add_user(user)
         MailUtil().send_confirm_mail(username, email)
-        render_template('auth/register_comfirm.html')
+        return render_template('auth/register_comfirm.html'
+                               , email=email
+                               , info=u'注册成功!'
+                               , categories=CategoryDAO().get_categories())
 
 
 @auth.route('/confirm/<token>')
@@ -92,10 +93,23 @@ def confirm(token):
         email = s.loads(token)
     except:
         return u'确认邮件超时,必须在半小时内确认!'
-    print '========>>', email, '<<========'
     user_dao = UsersDAO()
     result, mesg = user_dao.confirm_email(email)
     if result:
         return redirect('/index')
     else:
         return mesg
+
+
+@auth.route('/resend_confirm_mail')
+def resend_confirm_mail():
+    email = request.args.get('mail')
+    print email
+    user = UsersDAO().get_user_by_email(email)
+    if user is None:
+        abort(404)
+    MailUtil().send_confirm_mail(user.username, email)
+    return render_template('auth/register_comfirm.html'
+                           , email='zjurj@outlook.com'
+                           , info=u'重发邮件成功!'
+                           , categories=CategoryDAO().get_categories())

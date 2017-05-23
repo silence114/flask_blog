@@ -1,0 +1,47 @@
+{% extends "base_new.html" %}
+{% block title %}
+    邮箱确认
+{% endblock %}
+
+{% block art_list %}
+<div class="panel panel-success">
+  <div class="panel-body">
+    <b>注册成功</b>
+  </div>
+  <div class="panel-footer" style="padding: 30px; font-size: 15px;">
+      {% if info %}
+         <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>提醒!</strong> {{ info }}
+         </div>
+      {% endif %}
+      你好,非常高兴您能注册数据狗的点点滴滴网站,现在您里成为数据狗一员只差最后一步,赶紧去你的注册邮箱确认一下邮件吧!<br><br>
+      现在,你可以:
+      <ul style="margin-top: 20px;">
+          <li><a href="/" style="text-decoration: none;color:blue">已确认,随便逛逛</a></li>
+          <li><a href="/auth/login" style="text-decoration: none;color:blue">已确认,去登陆</a></li>
+          <li><a href ="javascript:volid(0);" id="time" style="text-decoration: none;color:grey;">未收到确认邮件,等待60s</a></li>
+      </ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        var setTime;
+        $(document).ready(function(){
+            var time=5;
+            setTime=setInterval(function(){
+                if(time<=0){
+                    clearInterval(setTime);
+                    $("#time").text('未收到确认邮件,重新发送')
+                            .attr('href','/auth/resend_confirm_mail?mail={{ email }}')
+                            .css('color','blue');
+                    return;
+                }
+                time--;
+                $("#time").text('未收到确认邮件,等待'+time+'s');
+            },1000);
+        });
+    </script>
+{% endblock %}
