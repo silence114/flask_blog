@@ -104,11 +104,15 @@ def confirm(token):
 @auth.route('/resend_confirm_mail')
 def resend_confirm_mail():
     email = request.args.get('mail')
-    print email
     user = UsersDAO().get_user_by_email(email)
     if user is None:
         abort(404)
-    MailUtil().send_confirm_mail(user.username, email)
+    if user.status == 0:
+        MailUtil().send_confirm_mail(user.username, email)
+        return render_template('auth/register_comfirm.html'
+                               , email='zjurj@outlook.com'
+                               , info=u'邮箱已经确认,请直接登录!'
+                               , categories=CategoryDAO().get_categories())
     return render_template('auth/register_comfirm.html'
                            , email='zjurj@outlook.com'
                            , info=u'重发邮件成功!'
