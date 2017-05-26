@@ -67,7 +67,7 @@ class ArticleDao:
             return None, u'分页数超出最大值'
         info = u'more' if (page + 1) * size < article_num else u'nomore'
         return self.session.query(Article)\
-                   .filter(Article.tags.like('%{tag}%'.format(tag=tag)))\
+                   .filter(Article.tags.like(u'%{tag}%'.format(tag=tag)))\
                    .order_by(desc(Article.modified_time)).offset(size * page).limit(size).all(), info
 
 if __name__ == '__main__':
