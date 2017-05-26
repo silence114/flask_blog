@@ -61,5 +61,14 @@ class ArticleDao:
         info = u'more' if (page + 1) * size < article_num else u'nomore'
         return self.session.query(Article).filter_by(cate_id=cate).order_by(desc(Article.modified_time)).offset(size * page).limit(size).all(), info
 
+    def get_article_by_tag(self, tag, page=0, size=20):
+        article_num = self.get_article_num()
+        if page * size > article_num:
+            return None, u'分页数超出最大值'
+        info = u'more' if (page + 1) * size < article_num else u'nomore'
+        return self.session.query(Article)\
+                   .filter(Article.tags.like('%{tag}%'.format(tag=tag)))\
+                   .order_by(desc(Article.modified_time)).offset(size * page).limit(size).all(), info
+
 if __name__ == '__main__':
-    print ArticleDao().get_article_by_id(5)
+    print ArticleDao().get_article_by_tag('hive')

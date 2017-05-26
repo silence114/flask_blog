@@ -67,6 +67,16 @@ def get_article_content(article_id):
         abort(500)
 
 
+@main.route('/tag/<string:tag>')
+def tags(tag):
+    articles, more = ArticleDao().get_article_by_tag(tag)
+    categories = CategoryDAO().get_categories()
+    return render_template('main/index.html',
+                           categories=categories,
+                           articles=articles,
+                           more=True if more == 'more' else False)
+
+
 @main.route('/about')
 def about():
     return render_template('about.html')
