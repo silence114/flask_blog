@@ -45,6 +45,104 @@
 	</div>
 {% endblock %}
 
+{% block comment%}
+    <style>
+        #comment_content{
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+        #comment_content li{
+            padding: 8px 20px 30px 20px;
+            list-style-type:none;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-top: 1px dashed #dddddd;
+        }
+        #comment_content .info{
+            display: block;
+        }
+         #comment_content li .left{
+             float: left;
+         }
+         #comment_content li .right{
+             float: right;
+         }
+         #comment_content .comment .content{
+             padding: 10px 20px;
+             margin-top: 10px;
+             background-color: #efffef;
+             border-radius: 5px;
+
+         }
+         #comment_content .comment .time{
+             font-size: 12px;
+             color: #8c8c8c;
+         }
+         #comment_content .comment .commer{
+             font-size: 14px;
+             color: #555555;
+             font-weight: bold;
+         }
+         #comment_content .comment .info .good,
+         #comment_content .comment .info .bad{
+             border: 0.5px solid #cccccc;
+             padding: 5px 8px;
+             margin-right: 10px;
+             border-radius: 8px;
+         }
+    </style>
+
+    <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2" id="comment" style="padding: 0 40px;">
+        <hr>
+        <div id="comment_submit">
+            <form action="/comment" method="post">
+                <input type="hidden" value="{{ article_id }}" name="article">
+                <div class="form-group">
+{#                    <label for="exampleInputEmail1" style="font-size: 16px;color: #666666;margin-bottom: 10px;">评论</label>#}
+                    <textarea name="comment" class="form-control" id="comment" rows="4" placeholder="请输入评论,评论前请先登录..." style="resize:vertical;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-block"
+                        {% if not current_user.is_authenticated() %}
+                        disabled
+                        {% endif %}>提交评论
+                </button>
+            </form>
+        </div>
+        <div id="comment_content" class="panel panel-default">
+          <div class="panel-body" style="font-size: 18px;">
+            留言板
+          </div>
+{#            <li class="comment">#}
+{#                <div class="info">#}
+{#                    <span class="left commer">admin</span>#}
+{#                <span class="right time">2017-05-25 21:21:21</span>#}
+{#                </div><br>#}
+{#                <div class="info content">#}
+{#                    这是一条测试评论,我也不知道该评论些什么鬼!#}
+{#                </div><br>#}
+{#                <div class="info">#}
+{#                    <span class="glyphicon glyphicon-thumbs-up left good" aria-hidden="true"> 赞 </span>#}
+{#                    <span class="glyphicon glyphicon-thumbs-down left bad" aria-hidden="true"> 踩 </span>#}
+{#                    <span class="glyphicon glyphicon-comment right replay" aria-hidden="true"> 评论 </span>#}
+{#                </div>#}
+{#            </li>#}
+{#            <li class="comment">#}
+{#                <div class="info">#}
+{#                    <span class="left commer">admin</span>#}
+{#                <span class="right time">2017-05-25 21:21:21</span>#}
+{#                </div><br>#}
+{#                <div class="info content">#}
+{#                    这是一条测试评论,我也不知道该评论些什么鬼!#}
+{#                </div><br>#}
+{#                <div class="info">#}
+{#                    <span class="glyphicon glyphicon-thumbs-up left good" aria-hidden="true"> 赞 </span>#}
+{#                    <span class="glyphicon glyphicon-thumbs-down left bad" aria-hidden="true"> 踩 </span>#}
+{#                    <span class="glyphicon glyphicon-comment right replay" aria-hidden="true"> 评论 </span>#}
+{#                </div>#}
+{#            </li>#}
+        </div>
+    </div>
+{% endblock %}
 
 {% block script %}
     <script>
@@ -54,6 +152,36 @@
         }).done(function(html){
             html = "<div class='col-xs-12 col-sm-12 col-md-10 col-lg-10 col-lg-offset-1 col-md-offset-1' style='padding:0px;'>"+html+"</div>";
             $("#main").html(html);
+
+            $.ajax({
+                 type:"POST"
+                ,async:true
+                ,url:"/getArticleComment/{{article_id}}"}
+            ).done(function(comments){
+                comments = eval(comments);
+                if(comments.length == 0){
+                    $("#comment_content").append(
+                            '<div style="border-top: 1px dashed #dddddd;padding:20px">暂时还没有评论,快给出第一个评论吧~</div>'
+                    );
+                }
+                for(i in comments){
+                    comment = comments[i];
+                    $("#comment_content").append(
+                            '<li class="comment">'+
+                                '<div class="info">'+
+                                '    <span class="left commer">'+comment.user+'</span>'+
+                                '<span class="right time">'+comment.create_time+'</span>'+
+                                '</div><br>'+
+                                '<div class="info content">'+ comment.comment+
+                                '</div><br>'+
+                                '<div class="info">'+
+                                '    <span class="glyphicon glyphicon-thumbs-up left good" aria-hidden="true"> <span class="badge">'+comment.good+'</span> </span>'+
+                                '    <span class="glyphicon glyphicon-thumbs-down left bad" aria-hidden="true"> <span class="badge">'+comment.bad+'</span></span>'+
+                                '    <span class="glyphicon glyphicon-comment right replay" aria-hidden="true"> 回复 </span>'+
+                                '</div>'+
+                            '</li>');
+                }
+            });
         });
     </script>
 {% endblock %}

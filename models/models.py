@@ -76,6 +76,19 @@ class Author(BaseModel):
     modified_time = Column(DateTime, default=datetime.datetime.now)
 
 
+class Comment(BaseModel):
+    __tablename__ = 'comments'
+    id = Column(Integer, primary_key=True, unique=True)
+    article_id = Column(Integer, nullable=False)
+    user = Column(String(32), nullable=False)
+    comment = Column(String(1024), nullable=False)
+    good = Column(Integer, nullable=False, default=0)
+    bad = Column(Integer, nullable=False, default=0)
+    replay = Column(String(1024))
+    create_time = Column(DateTime, default=datetime.datetime.now)
+    modified_time = Column(DateTime, default=datetime.datetime.now)
+
+
 def init_db():
     conf = ConfigUtil()
     host = conf.get_config(conf='host', section='db_info')
